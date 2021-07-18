@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+# # Importing Libraries
+
 # In[1]:
 
 
@@ -9,8 +11,10 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
-from sklearn.model_selection import train_test_split
+from sklearn.metrics import classification_report
 
+
+# # Taking Data, Preprocessing and Data Visualization
 
 # In[2]:
 
@@ -132,7 +136,7 @@ y= df1['Survived']
 # In[20]:
 
 
-x_train, x_test, y_train, y_test = train_test_split( x, y, test_size=0.2)
+#x_train, x_test, y_train, y_test = train_test_split( x, y, test_size=0.2)
 
 
 # In[21]:
@@ -144,25 +148,25 @@ model_svc=SVC(C=100,kernel='rbf')
 # In[22]:
 
 
-model_svc.fit(x_train,y_train)
+#model_svc.fit(x_train,y_train)
 
 
 # In[23]:
 
 
-prediction = model_svc.predict(x_test)
+#prediction = model_svc.predict(x_test)
 
 
 # In[24]:
 
 
-from sklearn.metrics import classification_report
+#from sklearn.metrics import classification_report
 
 
 # In[25]:
 
 
-print(classification_report(y_test,prediction))
+#print(classification_report(y_test,prediction))
 
 
 # In[26]:
@@ -290,7 +294,7 @@ y_predicted = model_svc.predict(df3)
 # In[41]:
 
 
-result = pd.DataFrame({
+Predicted_result = pd.DataFrame({
     "PassengerId":df2['PassengerId'],
     "Survived": y_predicted
 })
@@ -299,11 +303,67 @@ result = pd.DataFrame({
 # In[42]:
 
 
-print(result)
+print(Predicted_result)
 
 
 # In[43]:
 
 
-result.to_csv('Titanic_ML_Disaster_result.csv',index=False)
+Predicted_result.to_csv('Pridicted_Titanic_ML_Disaster_result.csv',index=False)
+
+
+# # Training and evaluating with splitted train test data
+
+# In[44]:
+
+
+from sklearn.model_selection import train_test_split
+x_train, x_test, y_train, y_test = train_test_split( x, y, test_size=0.2)
+
+
+# # Support Vector Machine Classifier
+
+# In[45]:
+
+
+model_svc.fit(x_train,y_train)
+
+
+# In[46]:
+
+
+prediction_svc = model_svc.predict(x_test)
+
+
+# In[47]:
+
+
+print(classification_report(y_test,prediction_svc))
+
+
+# # KNeighborsClassifier
+
+# In[48]:
+
+
+model_knc = KNeighborsClassifier()
+model_knc.fit(x_train, y_train)
+
+
+# In[49]:
+
+
+predictions_knc = model_knc.predict(x_test)
+
+
+# In[50]:
+
+
+print(classification_report(y_test, predictions_knc))
+
+
+# In[ ]:
+
+
+
 
